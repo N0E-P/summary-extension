@@ -2,7 +2,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "1.7.1",
+  "version": "1.0.0",
   "manifest_version": 2,
   "icons": {
     "16": "logo-16.png",
@@ -10,16 +10,9 @@
     "48": "logo-48.png",
     "128": "logo-128.png"
   },
-  "permissions": [
-    "storage",
-    "https://*.openai.com/",
-    "activeTab",
-    "tabs"
-  ],
+  "permissions": ["storage", "https://*.openai.com/", "activeTab", "tabs"],
   "background": {
-    "scripts": [
-      "background.js"
-    ]
+    "scripts": ["background.js"]
   },
   "browser_action": {},
   "options_ui": {
@@ -28,16 +21,9 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>",
-        "*://*/*"
-      ],
-      "js": [
-        "content-script.js"
-      ],
-      "css": [
-        "content-script.css"
-      ]
+      "matches": ["<all_urls>", "*://*/*"],
+      "js": ["content-script.js"],
+      "css": ["content-script.css"]
     }
   ]
 }

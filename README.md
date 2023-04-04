@@ -27,4 +27,4 @@ Disable "Prevent sites from fingerprinting me based on my language preferences" 
 
 ## Credit
 
-This project is a fork of [sparticleinc/chatgpt-google-summary-extension](https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/e3cfcbfc88cc230f8f391228e5cec2a068243203) Version 1.7.1
+This project is a fork from the version 1.7.1 of [sparticleinc/chatgpt-google-summary-extension](https://github.com/sparticleinc/chatgpt-google-summary-extension/tree/e3cfcbfc88cc230f8f391228e5cec2a068243203)
