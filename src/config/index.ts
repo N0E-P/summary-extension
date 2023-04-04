@@ -1,20 +1,6 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
 
-export enum TriggerMode {
-  Always = 'always',
-  QuestionMark = 'questionMark',
-  Manually = 'manually',
-}
-
-export const TRIGGER_MODE_TEXT = {
-  [TriggerMode.Always]: { title: 'Always', desc: 'ChatGPT is queried on every search' },
-  [TriggerMode.Manually]: {
-    title: 'Manually',
-    desc: 'ChatGPT is queried when you manually click a button',
-  },
-}
-
 export enum Theme {
   Auto = 'auto',
   Light = 'light',
@@ -36,7 +22,6 @@ export enum Language {
 }
 
 const userConfigWithDefaultValue: {
-  triggerMode: TriggerMode
   theme: Theme
   language: Language
   prompt: string
@@ -48,7 +33,6 @@ const userConfigWithDefaultValue: {
   pageSummaryWhitelist: string
   pageSummaryBlacklist: string
 } = {
-  triggerMode: TriggerMode.Always,
   theme: Theme.Auto,
   language: Language.Auto,
   prompt: '',
@@ -136,7 +120,6 @@ https://www.crunchyroll.com
 https://www.funimation.com
 https://www.viki.com
 `
-export const APP_TITLE = `Glarity Summary`
-
+export const APP_TITLE = `Summary`
 export const DEFAULT_MODEL = 'gpt-3.5-turbo'
 export const DEFAULT_API_HOST = 'api.openai.com'

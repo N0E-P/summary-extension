@@ -1,14 +1,15 @@
-import { render } from 'preact'
 import { getUserConfig, Theme } from '@/config'
-import { config } from '@/content-script/search-engine-configs'
 import ChatGPTContainer from '@/content-script/compenents/ChatGPTContainer'
-import { detectSystemColorScheme } from '@/utils/utils'
-import { getPossibleElementByQuerySelector, waitForElm } from '@/content-script/utils'
+import { config } from '@/content-script/search-engine-configs'
 import {
+  getPossibleElementByQuerySelector,
+  hostname,
   siteConfig as sietConfigFn,
   siteName as siteNameFn,
-  hostname,
+  waitForElm,
 } from '@/content-script/utils'
+import { detectSystemColorScheme } from '@/utils/utils'
+import { render } from 'preact'
 
 interface MountProps {
   question: string | null
@@ -193,7 +194,6 @@ export default async function mount(props: MountProps) {
       transcript={transcript}
       siteConfig={siteConfig}
       langOptionsWithLink={langOptionsWithLink}
-      triggerMode={userConfig.triggerMode || 'always'}
     />,
     container,
   )

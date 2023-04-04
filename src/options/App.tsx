@@ -1,39 +1,26 @@
-import {
-  CssBaseline,
-  GeistProvider,
-  Radio,
-  Select,
-  Text,
-  Toggle,
-  useToasts,
-  Divider,
-} from '@geist-ui/core'
-import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
 import '@/assets/styles/base.scss'
 import {
+  DEFAULT_PAGE_SUMMARY_BLACKLIST,
   getUserConfig,
   Language,
   Theme,
-  TriggerMode,
-  TRIGGER_MODE_TEXT,
   updateUserConfig,
-  DEFAULT_PAGE_SUMMARY_BLACKLIST,
 } from '@/config'
-import { PageSummaryProps } from './components/PageSummary'
-import ProviderSelect from './ProviderSelect'
 import { config as supportSites } from '@/content-script/search-engine-configs'
-import { isIOS } from '@/utils/utils'
-import Header from './components/Header'
-import CustomizePrompt from './components/CustomizePrompt'
-import PageSummaryComponent from './components/PageSummary'
-import EnableGlarity from './components/EnableGlarity'
-import { detectSystemColorScheme } from '@/utils/utils'
 import {
-  videoSummaryPromptHightligt,
-  searchPromptHighlight,
-  pageSummaryPromptHighlight,
   commentSummaryPromptHightligt,
+  pageSummaryPromptHighlight,
+  searchPromptHighlight,
+  videoSummaryPromptHightligt,
 } from '@/utils/prompt'
+import { detectSystemColorScheme } from '@/utils/utils'
+import { CssBaseline, GeistProvider, Radio, Select, Text, useToasts } from '@geist-ui/core'
+import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
+import CustomizePrompt from './components/CustomizePrompt'
+import EnableGlarity from './components/EnableGlarity'
+import Header from './components/Header'
+import PageSummaryComponent, { PageSummaryProps } from './components/PageSummary'
+import ProviderSelect from './ProviderSelect'
 
 import './styles.scss'
 
@@ -51,7 +38,6 @@ function OptionsPage(
     setPageSummaryWhitelist,
     setPageSummaryBlacklist,
   } = props
-  const [triggerMode, setTriggerMode] = useState<TriggerMode>(TriggerMode.Always)
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
   const [allSites, setAllSites] = useState<string[]>([])
@@ -60,15 +46,6 @@ function OptionsPage(
   const [promptSearch, setPromptSearch] = useState<string>('')
   const [promptPage, setPromptPage] = useState<string>('')
   const [promptComment, setPromptComment] = useState<string>('')
-
-  const onTriggerModeChange = useCallback(
-    (mode: TriggerMode) => {
-      setTriggerMode(mode)
-      updateUserConfig({ triggerMode: mode })
-      setToast({ text: 'Changes saved', type: 'success' })
-    },
-    [setToast],
-  )
 
   const onThemeChange = useCallback(
     (theme: Theme) => {
@@ -97,7 +74,6 @@ function OptionsPage(
 
   useEffect(() => {
     getUserConfig().then((config) => {
-      setTriggerMode(config.triggerMode)
       setLanguage(config.language)
 
       setPrompt(config.prompt ? config.prompt : videoSummaryPromptHightligt)
@@ -122,28 +98,6 @@ function OptionsPage(
 
       <main className="glarity--w-[900px] glarity--mx-auto glarity--mt-14 glarity--options">
         <Text h2>Options</Text>
-
-        {/* Trigger Mode */}
-        {!isIOS && (
-          <>
-            <Text h3 className="glarity--mt-5">
-              Trigger Mode
-            </Text>
-            <Radio.Group
-              value={triggerMode}
-              onChange={(val) => onTriggerModeChange(val as TriggerMode)}
-            >
-              {Object.entries(TRIGGER_MODE_TEXT).map(([value, texts]) => {
-                return (
-                  <Radio key={value} value={value}>
-                    {texts.title}
-                    <Radio.Description>{texts.desc}</Radio.Description>
-                  </Radio>
-                )
-              })}
-            </Radio.Group>
-          </>
-        )}
 
         {/* Theme */}
         <Text h3 className="glarity--mt-5">

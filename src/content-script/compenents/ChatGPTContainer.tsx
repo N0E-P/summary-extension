@@ -1,31 +1,29 @@
-import { useState, useCallback, useEffect, useMemo } from 'react'
-import { Spinner, GeistProvider, Loading, Divider } from '@geist-ui/core'
-import { SearchIcon } from '@primer/octicons-react'
+import { GeistProvider, Loading, Spinner } from '@geist-ui/core'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import Browser from 'webextension-polyfill'
 // import useSWRImmutable from 'swr/immutable'
+import logo from '@/assets/img/logo-48.png'
+import { APP_TITLE, getUserConfig, Theme } from '@/config'
+import getQuestion from '@/content-script/compenents/GetQuestion'
 import { SearchEngine } from '@/content-script/search-engine-configs'
-import { TriggerMode, Theme, getUserConfig, APP_TITLE } from '@/config'
-import ChatGPTCard from './ChatGPTCard'
-import { QueryStatus } from './ChatGPTQuery'
 import { copyTranscript, getConverTranscript } from '@/content-script/utils'
 import { detectSystemColorScheme } from '@/utils/utils'
 import {
-  GearIcon,
+  AlertIcon,
   CheckIcon,
-  CopyIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  AlertIcon,
+  CopyIcon,
+  GearIcon,
   SyncIcon,
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
-import getQuestion from '@/content-script/compenents/GetQuestion'
-import logo from '@/assets/img/logo-48.png'
+import ChatGPTCard from './ChatGPTCard'
+import { QueryStatus } from './ChatGPTQuery'
 
 interface Props {
   question: string | null
   transcript?: unknown
-  triggerMode: TriggerMode
   siteConfig: SearchEngine
   langOptionsWithLink?: unknown
   currentTime?: number
@@ -40,8 +38,6 @@ function ChatGPTContainer(props: Props) {
   const [theme, setTheme] = useState(Theme.Auto)
   const [questionProps, setQuestionProps] = useState<Props>({ ...props })
   const [currentTranscript, setCurrentTranscript] = useState(props.transcript)
-
-  const { triggerMode } = props
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
@@ -182,32 +178,16 @@ function ChatGPTContainer(props: Props) {
               <div className="glarity--main__container">
                 {questionProps.question ? (
                   <>
-                    {triggerMode === TriggerMode.Manually && !questionProps.currentTime ? (
-                      <span
-                        className="glarity--link"
-                        onClick={() => {
-                          onRefresh()
-                        }}
-                      >
-                        <a>
-                          <SearchIcon size="small" /> Ask ChatGPT to summarize
-                        </a>
-                      </span>
-                    ) : (
-                      <>
-                        {loading && (
-                          <div className="glarity--main__loading">
-                            <Loading />
-                          </div>
-                        )}
-                        <ChatGPTCard
-                          question={questionProps.question}
-                          triggerMode={questionProps.triggerMode}
-                          onStatusChange={setQueryStatus}
-                          currentTime={questionProps.currentTime}
-                        />
-                      </>
+                    {loading && (
+                      <div className="glarity--main__loading">
+                        <Loading />
+                      </div>
                     )}
+                    <ChatGPTCard
+                      question={questionProps.question}
+                      onStatusChange={setQueryStatus}
+                      currentTime={questionProps.currentTime}
+                    />
                   </>
                 ) : questionProps.siteConfig?.name === 'youtube' ? (
                   <>
