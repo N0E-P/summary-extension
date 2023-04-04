@@ -1,6 +1,6 @@
 {
-  "name": "chatgpt-google-summary-extension",
-  "author": "givebest",
+  "name": "summary-extension",
+  "author": "Noé Pecci",
   "scripts": {
     "dev": "cross-env NODE_ENV='dev' node build.mjs",
     "build": "cross-env NODE_ENV='production' node build.mjs",
