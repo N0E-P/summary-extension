@@ -1,5 +1,5 @@
+import { BASE_URL, Theme } from '@/config'
 import Browser from 'webextension-polyfill'
-import { Theme, BASE_URL } from '@/config'
 
 export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
@@ -7,7 +7,7 @@ export const isFirefox = navigator.userAgent.indexOf('Firefox') != -1
 
 export const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 
-export const AppName = 'Glarity-Summary for Google/YouTube (ChatGPT)'
+export const AppName = 'Glarity'
 
 export function detectSystemColorScheme() {
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
