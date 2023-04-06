@@ -7,7 +7,7 @@ import useSWR from 'swr'
 const { Option } = Aselect
 
 const ConfigPanel = ({ config, models }) => {
-  const [tab, setTab] = useState < ProviderType > (isSafari ? ProviderType.GPT3 : config.provider)
+  const [tab, setTab] = useState(isSafari ? ProviderType.GPT3 : config.provider)
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
   const { bindings: apiHostBindings } = useInput(config.configs[ProviderType.GPT3]?.apiHost ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])

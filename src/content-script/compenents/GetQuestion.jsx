@@ -312,7 +312,7 @@ export default async function getQuestion() {
 
   // bing
   if (siteName === 'bing') {
-    const searchInput = getPossibleElementByQuerySelector < HTMLInputElement > siteConfig.inputQuery
+    const searchInput = getPossibleElementByQuerySelector(siteConfig.inputQuery)
     if (!searchInput) return null
     const searchValueWithLanguageOption =
       userConfig.language === Language.Auto
@@ -373,8 +373,7 @@ export default async function getQuestion() {
 
   // Google
   await waitForElm(siteConfig.inputQuery[0])
-  const searchInput = getPossibleElementByQuerySelector < HTMLInputElement > siteConfig.inputQuery
-
+  const searchInput = getPossibleElementByQuerySelector(siteConfig.inputQuery)
   if (searchInput && searchInput.value) {
     const searchValueWithLanguageOption =
       userConfig.language === Language.Auto

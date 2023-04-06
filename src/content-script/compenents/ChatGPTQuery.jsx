@@ -20,7 +20,7 @@ function ChatGPTQuery(props) {
   const [done, setDone] = useState(false)
   const [showTip, setShowTip] = useState(false)
   const [status, setStatus] = useState()
-  const wrapRef = (useRef < HTMLDivElement) | (null > null)
+  const wrapRef = useRef(null)
 
   const requestGpt = useMemo(() => {
     console.log('question', question)

@@ -14,7 +14,7 @@ import ProviderSelect from './ProviderSelect'
 import './styles.scss'
 
 function OptionsPage(props) {
-  const [language, setLanguage] = useState < Language > Language.Auto
+  const [language, setLanguage] = useState(Language.Auto)
   const { setToast } = useToasts()
 
   const onThemeChange = useCallback(
@@ -97,8 +97,8 @@ function OptionsPage(props) {
 export default function App() {
   const [theme, setTheme] = useState(Theme.Auto)
   const [pageSummaryEnable, setPageSummaryEnable] = useState(true)
-  const [pageSummaryWhitelist, setPageSummaryWhitelist] = useState < string > ''
-  const [pageSummaryBlacklist, setPageSummaryBlacklist] = useState < string > ''
+  const [pageSummaryWhitelist, setPageSummaryWhitelist] = useState('')
+  const [pageSummaryBlacklist, setPageSummaryBlacklist] = useState('')
 
   const themeType = useMemo(() => {
     if (theme === Theme.Auto) {
