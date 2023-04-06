@@ -10,7 +10,6 @@ import { config as supportSites } from '@/content-script/search-engine-configs'
 import { detectSystemColorScheme } from '@/utils/utils'
 import { CssBaseline, GeistProvider, Radio, Select, Text, useToasts } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
-import EnableGlarity from './components/EnableGlarity'
 import Header from './components/Header'
 import PageSummaryComponent, { PageSummaryProps } from './components/PageSummary'
 import ProviderSelect from './ProviderSelect'
@@ -122,14 +121,6 @@ function OptionsPage(
           AI Provider
         </Text>
         <ProviderSelect />
-
-        {/* Enable/Disable Glarity */}
-        <EnableGlarity
-          enableSites={enableSites}
-          setEnableSites={setEnableSites}
-          allSites={allSites}
-          supportSites={supportSites}
-        />
 
         {/* Page Summary */}
         <PageSummaryComponent
