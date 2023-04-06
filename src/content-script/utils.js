@@ -1,22 +1,20 @@
-import Browser from 'webextension-polyfill'
-import $ from 'jquery'
-import copy from 'copy-to-clipboard'
-import { config } from './search-engine-configs'
 import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
+import copy from 'copy-to-clipboard'
+import $ from 'jquery'
+import Browser from 'webextension-polyfill'
+import { config } from './search-engine-configs'
 
-export function getPossibleElementByQuerySelector<T extends Element>(
-  queryArray: string[],
-): T | undefined {
+export function getPossibleElementByQuerySelector(queryArray) {
   for (const query of queryArray) {
     const element = document.querySelector(query)
     if (element) {
-      return element as T
+      return element
     }
   }
   return undefined
 }
 
-export function endsWithQuestionMark(question: string) {
+export function endsWithQuestionMark(question) {
   return (
     question.endsWith('?') || // ASCII
     question.endsWith('？') || // Chinese/Japanese
@@ -26,7 +24,7 @@ export function endsWithQuestionMark(question: string) {
 }
 
 export function isBraveBrowser() {
-  return (navigator as any).brave?.isBrave()
+  return navigator.brave?.isBrave()
 }
 
 export async function shouldShowRatingTip() {
@@ -38,7 +36,7 @@ export async function shouldShowRatingTip() {
   return ratingTipShowTimes >= 2
 }
 
-export function removeHtmlTags(str: string) {
+export function removeHtmlTags(str) {
   return str.replace(/<[^>]+>/g, '')
 }
 
@@ -93,7 +91,7 @@ export async function getRawTranscript(link) {
   })
 }
 
-export async function getTranscriptHTML(rawTranscript: string[], videoId) {
+export async function getTranscriptHTML(rawTranscript, videoId) {
   const scriptObjArr = [],
     timeUpperLimit = 60,
     charInitLimit = 300,
@@ -256,7 +254,7 @@ export async function getConverTranscript({ langOptionsWithLink, videoId, index 
   return transcriptList
 }
 
-export function matchSites(site: string) {
+export function matchSites(site) {
   return /(^(www\.)?(google|baidu)\.)|(^(search\.)?yahoo\.)|(^(www|cn)\.?bing\.)|(^(www\.)?kagi\.)|(^(search\.)?naver\.)|(^(search\.)?brave\.)|(^(www\.)?duckduckgo\.)|(^(\w+\.)?yandex\.)|(^(www\.)?searx\.be)|(^news\.yahoo\.co\.jp)|(^(\w+\.)?ncbi\.nlm\.nih\.gov)|(^(www\.)?newspicks\.com)|(^(www\.)?nikkei\.com)|(^(www\.)?github\.com)|(^(www\.)?youtube\.com)/.test(
     site,
   )
@@ -302,12 +300,7 @@ export const getPageSummaryContntent = async () => {
   return article
 }
 
-export const pageSummaryJSON: {
-  title: string | null
-  content: string | null
-  description: string | null
-  rate?: string | null
-} = {
+export const pageSummaryJSON = {
   title: null,
   content: null,
   description: null,

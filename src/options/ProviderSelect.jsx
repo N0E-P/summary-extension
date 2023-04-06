@@ -1,18 +1,13 @@
-import { Button, Input, Spinner, useInput, useToasts, Radio, Card } from '@geist-ui/core'
-import { FC, useCallback, useState, useEffect } from 'react'
-import useSWR from 'swr'
-import { getProviderConfigs, ProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
-import { Select as Aselect } from 'antd'
-const { Option } = Aselect
+import { getProviderConfigs, ProviderType, saveProviderConfigs } from '@/config'
 import { isSafari } from '@/utils/utils'
+import { Button, Card, Input, Radio, Spinner, useInput, useToasts } from '@geist-ui/core'
+import { Select as Aselect } from 'antd'
+import { useCallback, useEffect, useState } from 'react'
+import useSWR from 'swr'
+const { Option } = Aselect
 
-interface ConfigProps {
-  config: ProviderConfigs
-  models: string[]
-}
-
-const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
-  const [tab, setTab] = useState<ProviderType>(isSafari ? ProviderType.GPT3 : config.provider)
+const ConfigPanel = ({ config, models }) => {
+  const [tab, setTab] = useState < ProviderType > (isSafari ? ProviderType.GPT3 : config.provider)
   const { bindings: apiKeyBindings } = useInput(config.configs[ProviderType.GPT3]?.apiKey ?? '')
   const { bindings: apiHostBindings } = useInput(config.configs[ProviderType.GPT3]?.apiHost ?? '')
   const [model, setModel] = useState(config.configs[ProviderType.GPT3]?.model ?? models[0])
@@ -53,7 +48,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
     <>
       <Card className="glarity--card">
         <div className="glarity--flex glarity--flex-col glarity--gap-3">
-          <Radio.Group value={tab} onChange={(v) => setTab(v as ProviderType)}>
+          <Radio.Group value={tab} onChange={(v) => setTab(v)}>
             {!isSafari && (
               <>
                 <Radio value={ProviderType.ChatGPT}>
@@ -85,7 +80,7 @@ const ConfigPanel: FC<ConfigProps> = ({ config, models }) => {
                     />
                     <Aselect
                       defaultValue={model}
-                      onChange={(v) => setModel(v as string)}
+                      onChange={(v) => setModel(v)}
                       placeholder="model"
                       optionLabelProp="label"
                       style={{ width: '170px' }}
@@ -150,7 +145,7 @@ function ProviderSelect() {
   if (query.isLoading) {
     return <Spinner />
   }
-  return <ConfigPanel config={query.data!.config} models={models} />
+  return <ConfigPanel config={query.data.config} models={models} />
 }
 
 export default ProviderSelect

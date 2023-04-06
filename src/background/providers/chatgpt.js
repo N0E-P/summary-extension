@@ -1,10 +1,9 @@
+import { BASE_URL } from '@/config'
 import ExpiryMap from 'expiry-map'
 import { v4 as uuidv4 } from 'uuid'
 import { fetchSSE } from '../fetch-sse'
-import { GenerateAnswerParams, Provider } from '../types'
-import { BASE_URL } from '@/config'
 
-async function request(token: string, method: string, path: string, data?: unknown) {
+async function request(token, method, path, data) {
   return fetch(`${BASE_URL}/backend-api${path}`, {
     method,
     headers: {
@@ -15,15 +14,11 @@ async function request(token: string, method: string, path: string, data?: unkno
   })
 }
 
-export async function sendMessageFeedback(token: string, data: unknown) {
+export async function sendMessageFeedback(token, data) {
   await request(token, 'POST', '/conversation/message_feedback', data)
 }
 
-export async function setConversationProperty(
-  token: string,
-  conversationId: string,
-  propertyObject: object,
-) {
+export async function setConversationProperty(token, conversationId, propertyObject) {
   await request(token, 'PATCH', `/conversation/${conversationId}`, propertyObject)
 }
 
@@ -31,7 +26,7 @@ const KEY_ACCESS_TOKEN = 'accessToken'
 
 const cache = new ExpiryMap(10 * 1000)
 
-export async function getChatGPTAccessToken(): Promise<string> {
+export async function getChatGPTAccessToken() {
   if (cache.get(KEY_ACCESS_TOKEN)) {
     return cache.get(KEY_ACCESS_TOKEN)
   }
@@ -47,19 +42,17 @@ export async function getChatGPTAccessToken(): Promise<string> {
   return data.accessToken
 }
 
-export class ChatGPTProvider implements Provider {
-  constructor(private token: string) {
+export class ChatGPTProvider {
+  constructor(token) {
     this.token = token
   }
 
-  private async fetchModels(): Promise<
-    { slug: string; title: string; description: string; max_tokens: number }[]
-  > {
+  async fetchModels() {
     const resp = await request(this.token, 'GET', '/models').then((r) => r.json())
     return resp.models
   }
 
-  private async getModelName(): Promise<string> {
+  async getModelName() {
     try {
       const models = await this.fetchModels()
       return models[0].slug
@@ -69,8 +62,8 @@ export class ChatGPTProvider implements Provider {
     }
   }
 
-  async generateAnswer(params: GenerateAnswerParams) {
-    let conversationId: string | undefined
+  async generateAnswer(params) {
+    let conversationId
 
     const cleanup = () => {
       if (conversationId) {
@@ -102,7 +95,7 @@ export class ChatGPTProvider implements Provider {
         model: modelName,
         parent_message_id: uuidv4(),
       }),
-      onMessage(message: string) {
+      onMessage(message) {
         console.debug('sse message', message)
         if (message === '[DONE]') {
           params.onEvent({ type: 'done' })

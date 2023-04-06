@@ -1,22 +1,23 @@
-import { getUserConfig, getProviderConfigs, Language } from '@/config'
+import { getProviderConfigs, getUserConfig, Language } from '@/config'
 import { getSummaryPrompt } from '@/content-script/prompt'
+import {
+  getConverTranscript,
+  getLangOptionsWithLink,
+  getPossibleElementByQuerySelector,
+  siteConfig as sietConfigFn,
+  siteName as siteNameFn,
+  waitForElm,
+} from '@/content-script/utils'
+import { getBiliTranscript, getBiliVideoId } from '@/utils/bilibili'
 import {
   articlePrompt,
   googlePatentsPromptHighlight,
-  videoPrompt,
   searchPrompt,
-  videoSummaryPromptHightligt,
   searchPromptHighlight,
+  videoPrompt,
+  videoSummaryPromptHightligt,
 } from '@/utils/prompt'
-import {
-  getPossibleElementByQuerySelector,
-  getLangOptionsWithLink,
-  waitForElm,
-  getConverTranscript,
-} from '@/content-script/utils'
-import { getBiliTranscript, getBiliVideoId } from '@/utils/bilibili'
 import { queryParam } from 'gb-url'
-import { siteConfig as sietConfigFn, siteName as siteNameFn } from '@/content-script/utils'
 
 export default async function getQuestion() {
   const siteConfig = sietConfigFn()
@@ -311,7 +312,7 @@ export default async function getQuestion() {
 
   // bing
   if (siteName === 'bing') {
-    const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
+    const searchInput = getPossibleElementByQuerySelector < HTMLInputElement > siteConfig.inputQuery
     if (!searchInput) return null
     const searchValueWithLanguageOption =
       userConfig.language === Language.Auto
@@ -333,10 +334,11 @@ export default async function getQuestion() {
           v.querySelector('.b_lineclamp3')?.textContent
         const index = i + 1
 
-        const link = (v.querySelector('a.sh_favicon') ||
+        const link =
+          v.querySelector('a.sh_favicon') ||
           v.querySelector('h2.b_topTitle > a') ||
           v.querySelector('.b_title  a') ||
-          v.querySelector('h2  a')) as HTMLLinkElement
+          v.querySelector('h2  a')
 
         let url = link?.href
 
@@ -371,7 +373,7 @@ export default async function getQuestion() {
 
   // Google
   await waitForElm(siteConfig.inputQuery[0])
-  const searchInput = getPossibleElementByQuerySelector<HTMLInputElement>(siteConfig.inputQuery)
+  const searchInput = getPossibleElementByQuerySelector < HTMLInputElement > siteConfig.inputQuery
 
   if (searchInput && searchInput.value) {
     const searchValueWithLanguageOption =
@@ -388,8 +390,8 @@ export default async function getQuestion() {
         let url = ''
         let text = ''
         const index = i + 1
-        let titleWrap: Element | null = null
-        let title: Element | null = null
+        let titleWrap = null
+        let title = null
 
         if (v.contains(v.querySelector('block-component'))) {
           // featured snippets

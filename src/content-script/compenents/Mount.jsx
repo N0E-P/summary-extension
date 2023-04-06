@@ -11,13 +11,7 @@ import {
 import { detectSystemColorScheme } from '@/utils/utils'
 import { render } from 'preact'
 
-interface MountProps {
-  question: string | null
-  transcript?: unknown
-  langOptionsWithLink?: unknown
-}
-
-export default async function mount(props: MountProps) {
+export default async function mount(props) {
   const siteConfig = sietConfigFn()
   const siteName = siteNameFn()
 
@@ -59,7 +53,7 @@ export default async function mount(props: MountProps) {
   container.classList.add('glarity--container')
   container.id = 'glarity--container'
 
-  let theme: Theme
+  let theme
   if (userConfig.theme === Theme.Auto) {
     theme = detectSystemColorScheme()
   } else {

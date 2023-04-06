@@ -2,7 +2,7 @@ import { ProviderType } from '@/config'
 import GPT3Tokenizer from 'gpt3-tokenizer'
 const tokenizer = new GPT3Tokenizer({ type: 'gpt3' })
 
-export function getSummaryPrompt(transcript = '', providerConfigs?: ProviderType) {
+export function getSummaryPrompt(transcript = '', providerConfigs) {
   const text = transcript
     ? transcript
         .replace(/&#39;/g, "'")
@@ -98,7 +98,7 @@ function truncateTranscript(str, providerConfigs) {
   const tokenLimit = providerConfigs === ProviderType.GPT3 ? apiLimit : limit
 
   // if (providerConfigs === ProviderType.GPT3) {
-  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(textStr)
+  const encoded = tokenizer.encode(textStr)
   const bytes = encoded.bpe.length
 
   if (bytes > tokenLimit) {
@@ -124,7 +124,7 @@ function truncateTranscriptByToken(str, providerConfigs) {
   const tokenLimit = providerConfigs === ProviderType.GPT3 ? apiLimit : limit
 
   // if (providerConfigs === ProviderType.GPT3) {
-  const encoded: { bpe: number[]; text: string[] } = tokenizer.encode(str)
+  const encoded = tokenizer.encode(str)
   const bytes = encoded.bpe.length
 
   if (bytes > tokenLimit) {

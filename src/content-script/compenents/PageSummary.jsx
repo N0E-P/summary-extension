@@ -1,31 +1,24 @@
-import { useState, useCallback, useEffect } from 'preact/hooks'
-import classNames from 'classnames'
-import { XCircleFillIcon, GearIcon } from '@primer/octicons-react'
-import Browser from 'webextension-polyfill'
 import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
+import { GearIcon, XCircleFillIcon } from '@primer/octicons-react'
+import classNames from 'classnames'
+import { useCallback, useEffect, useState } from 'preact/hooks'
+import Browser from 'webextension-polyfill'
 // import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
-import { getUserConfig, Language, getProviderConfigs, APP_TITLE } from '@/config'
-import { getSummaryPrompt } from '@/content-script/prompt'
-import { isIOS } from '@/utils/utils'
-import { getPageSummaryContntent, getPageSummaryComments } from '@/content-script/utils'
-import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
+import { APP_TITLE, getProviderConfigs, getUserConfig, Language } from '@/config'
+import { getSummaryPrompt } from '@/content-script/prompt'
+import { getPageSummaryComments, getPageSummaryContntent } from '@/content-script/utils'
+import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
+import { isIOS } from '@/utils/utils'
 
-interface Props {
-  pageSummaryEnable: boolean
-  pageSummaryWhitelist: string
-  pageSummaryBlacklist: string
-  siteRegex: RegExp
-}
-
-function PageSummary(props: Props) {
+function PageSummary(props) {
   const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
   const [showCard, setShowCard] = useState(false)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
-  const [show, setShow] = useState<boolean>(false)
+  const [show, setShow] = useState(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {

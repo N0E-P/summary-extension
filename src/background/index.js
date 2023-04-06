@@ -1,19 +1,18 @@
+import { BASE_URL, getProviderConfigs, ProviderType } from '@/config'
+import { isFirefox, tabSendMsg } from '@/utils/utils'
 import Browser from 'webextension-polyfill'
-import { getProviderConfigs, ProviderType, BASE_URL } from '@/config'
 import { ChatGPTProvider, getChatGPTAccessToken, sendMessageFeedback } from './providers/chatgpt'
 import { OpenAIProvider } from './providers/openai'
-import { Provider } from './types'
-import { isFirefox, tabSendMsg } from '@/utils/utils'
 
-async function generateAnswers(port: Browser.Runtime.Port, question: string) {
+async function generateAnswers(port, question) {
   const providerConfigs = await getProviderConfigs()
 
-  let provider: Provider
+  let provider
   if (providerConfigs.provider === ProviderType.ChatGPT) {
     const token = await getChatGPTAccessToken()
     provider = new ChatGPTProvider(token)
   } else if (providerConfigs.provider === ProviderType.GPT3) {
-    const { apiKey, model } = providerConfigs.configs[ProviderType.GPT3]!
+    const { apiKey, model } = providerConfigs.configs[ProviderType.GPT3]
     provider = new OpenAIProvider(apiKey, model)
   } else {
     throw new Error(`Unknown provider ${providerConfigs.provider}`)
@@ -74,7 +73,7 @@ Browser.runtime.onConnect.addListener(async (port) => {
     console.debug('received msg', msg)
     try {
       await generateAnswers(port, msg.question)
-    } catch (err: any) {
+    } catch (err) {
       // console.error(err)
       port.postMessage({ error: err.message })
     }

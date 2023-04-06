@@ -1,14 +1,10 @@
-import { useState } from 'preact/hooks'
-import { Note, Description, Button, Divider } from '@geist-ui/core'
-import { XCircleFillIcon } from '@primer/octicons-react'
-import Browser from 'webextension-polyfill'
 import { APP_TITLE } from '@/config'
+import { Button, Description, Divider, Note } from '@geist-ui/core'
+import { XCircleFillIcon } from '@primer/octicons-react'
+import { useState } from 'preact/hooks'
+import Browser from 'webextension-polyfill'
 
-interface Props {
-  isLogin: boolean
-}
-
-function ChatGPTTip(props: Props) {
+function ChatGPTTip(props) {
   const isLogin = props?.isLogin
   const [showTip, setShowTip] = useState(true)
 

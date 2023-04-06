@@ -10,7 +10,7 @@ export const videoSummaryPromptHightligt = `Instructions: Your output should use
 Use up to 3 brief bullet points to summarize the content below, Choose an appropriate emoji for each bullet point. and summarize a short highlight: {{Title}} {{Transcript}}.`
 export const searchPromptHighlight = `Using the provided web search results, write a comprehensive reply to the given query. Make sure to cite results using [[number](URL)] notation after the reference. If the provided search results refer to multiple subjects with the same name, write separate answers for each subject. and at last please provide your own insights.`
 
-export const commentSummaryPromptHightligt_bak = (rate: boolean) => {
+export const commentSummaryPromptHightligt_bak = (rate) => {
   return rate
     ? `Give a summary of the reviews of this item according to the above, and add a rating.Your output should use the following template:
 #### Rating
@@ -56,57 +56,25 @@ export const customizePromptCommentAmazon = `Give a summary of the reviews of th
 
 export const customizePromptCommentYoutube = `Give a summary of the comments for this video, including the different points of view.`
 
-export const replylanguagePrompt = (language: string) => {
+export const replylanguagePrompt = (language) => {
   return `Please write in ${language} language.`
 }
 
-export const articlePrompt = ({
-  title,
-  url,
-  content,
-  language,
-  prompt,
-}: {
-  title: string
-  url?: string
-  content: string
-  language: string
-  prompt?: string
-}) => {
+export const articlePrompt = ({ title, url, content, language, prompt }) => {
   return `Title: ${title}
 Content:  ${content}
 Instructions: ${prompt ? prompt : articlePromptHighlight}
 ${replylanguagePrompt(language)}`
 }
 
-export const videoPrompt = ({
-  title,
-  transcript,
-  language,
-  prompt,
-}: {
-  title: string
-  transcript: string
-  language: string
-  prompt: string
-}) => {
+export const videoPrompt = ({ title, transcript, language, prompt }) => {
   return `Title: ${title}
 Transcript: ${transcript}
 Instructions: ${prompt}
 ${replylanguagePrompt(language)}`
 }
 
-export const searchPrompt = ({
-  query,
-  results,
-  language,
-  prompt,
-}: {
-  query: string
-  results: string
-  language: string
-  prompt: string
-}) => {
+export const searchPrompt = ({ query, results, language, prompt }) => {
   const date = new Date()
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -119,31 +87,13 @@ Query: ${query}
 ${replylanguagePrompt(language)}`
 }
 
-export const pageSummaryPrompt = ({
-  content,
-  language,
-  prompt,
-}: {
-  content: string
-  language: string
-  prompt?: string
-}) => {
+export const pageSummaryPrompt = ({ content, language, prompt }) => {
   return `Content: ${content}
 Instructions: ${prompt ? prompt : pageSummaryPromptHighlight}
 ${replylanguagePrompt(language)}`
 }
 
-export const commentSummaryPrompt = ({
-  content,
-  language,
-  prompt,
-  rate,
-}: {
-  content: string
-  language: string
-  prompt?: string
-  rate?: string | null
-}) => {
+export const commentSummaryPrompt = ({ content, language, prompt, rate }) => {
   const isRate = !!(rate && rate !== '-1')
   return `Comments: ${content}
 ${isRate ? 'Customer Ratings:' + rate : ''}

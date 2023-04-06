@@ -1,21 +1,8 @@
-import { waitForElm } from './utils'
 import { queryParam } from 'gb-url'
 import { getBiliVideoId } from '../utils/bilibili'
-export interface SearchEngine {
-  inputQuery: string[]
-  sidebarContainerQuery: string[]
-  appendContainerQuery: string[]
-  extabarContainerQuery?: string[]
-  contentContainerQuery: string[]
-  watchRouteChange?: (callback: () => void) => void
-  name?: string
-  siteName: string
-  siteValue: string
-  regex: string
-  searchRegExp?: string
-}
+import { waitForElm } from './utils'
 
-export const config: Record<string, SearchEngine> = {
+export const config = {
   google: {
     inputQuery: ["input[name='q']"],
     sidebarContainerQuery: ['#rhs'],
@@ -60,7 +47,7 @@ export const config: Record<string, SearchEngine> = {
     appendContainerQuery: ['#container'],
     contentContainerQuery: [],
     watchRouteChange(callback) {
-      const targetNode = document.getElementById('wrapper_wrapper')!
+      const targetNode = document.getElementById('wrapper_wrapper')
       const observer = new MutationObserver(function (records) {
         for (const record of records) {
           if (record.type === 'childList') {

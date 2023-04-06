@@ -16,7 +16,7 @@ const appName = 'Glarity-'
 const isDev = process.env.NODE_ENV === 'dev'
 
 let buildConfig = {
-  entryPoints: ['src/content-script/index.tsx', 'src/background/index.ts', 'src/options/index.tsx'],
+  entryPoints: ['src/content-script/index.jsx', 'src/background/index.js', 'src/options/index.jsx'],
   bundle: true,
   outdir: outdir,
   treeShaking: true,

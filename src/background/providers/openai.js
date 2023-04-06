@@ -1,25 +1,24 @@
+import { DEFAULT_API_HOST, DEFAULT_MODEL, getProviderConfigs, ProviderType } from '@/config'
 import { fetchSSE } from '../fetch-sse'
-import { GenerateAnswerParams, Provider } from '../types'
-import { getProviderConfigs, ProviderType, DEFAULT_MODEL, DEFAULT_API_HOST } from '@/config'
 
-export class OpenAIProvider implements Provider {
-  constructor(private token: string, private model: string) {
+export class OpenAIProvider {
+  constructor(token, model) {
     this.token = token
     this.model = model
   }
 
-  private buildPrompt(prompt: string): string {
+  buildPrompt(prompt) {
     if (this.model.startsWith('text-chat-davinci')) {
       return `Respond conversationally.<|im_end|>\n\nUser: ${prompt}<|im_sep|>\nChatGPT:`
     }
     return prompt
   }
 
-  private buildMessages(prompt: string) {
+  buildMessages(prompt) {
     return [{ role: 'user', content: prompt }]
   }
 
-  async generateAnswer(params: GenerateAnswerParams) {
+  async generateAnswer(params) {
     const [config] = await Promise.all([getProviderConfigs()])
 
     const gptModel = config.configs[ProviderType.GPT3]?.model ?? DEFAULT_MODEL

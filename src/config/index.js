@@ -1,38 +1,32 @@
 import { defaults } from 'lodash-es'
 import Browser from 'webextension-polyfill'
 
-export enum Theme {
-  Auto = 'auto',
-  Light = 'light',
-  Dark = 'dark',
+export const Theme = {
+  Auto: 'auto',
+  Light: 'light',
+  Dark: 'dark',
 }
 
-export enum Language {
-  Auto = 'auto',
-  English = 'en-US',
-  ChineseSimplified = 'zh-Hans',
-  ChineseTraditional = 'zh-Hant',
-  Spanish = 'es-ES',
-  French = 'fr-FR',
-  Korean = 'ko-KR',
-  Japanese = 'ja-JP',
-  German = 'de-DE',
-  Portuguese = 'pt-PT',
-  Russian = 'ru-RU',
+export const Language = {
+  Auto: 'auto',
+  English: 'en-US',
+  ChineseSimplified: 'zh-Hans',
+  ChineseTraditional: 'zh-Hant',
+  Spanish: 'es-ES',
+  French: 'fr-FR',
+  Korean: 'ko-KR',
+  Japanese: 'ja-JP',
+  German: 'de-DE',
+  Portuguese: 'pt-PT',
+  Russian: 'ru-RU',
 }
 
-const userConfigWithDefaultValue: {
-  theme: Theme
-  language: Language
-  prompt: string
-  promptSearch: string
-  promptPage: string
-  promptComment: string
-  enableSites: string[] | null
-  pageSummaryEnable: boolean
-  pageSummaryWhitelist: string
-  pageSummaryBlacklist: string
-} = {
+export const ProviderType = {
+  ChatGPT: 'chatgpt',
+  GPT3: 'gpt3',
+}
+
+const userConfigWithDefaultValue = {
   theme: Theme.Auto,
   language: Language.Auto,
   prompt: '',
@@ -45,37 +39,17 @@ const userConfigWithDefaultValue: {
   pageSummaryBlacklist: '',
 }
 
-export type UserConfig = typeof userConfigWithDefaultValue
-
-export async function getUserConfig(): Promise<UserConfig> {
+export async function getUserConfig() {
   const result = await Browser.storage.local.get(Object.keys(userConfigWithDefaultValue))
   return defaults(result, userConfigWithDefaultValue)
 }
 
-export async function updateUserConfig(updates: Partial<UserConfig>) {
+export async function updateUserConfig(updates) {
   console.debug('update configs', updates)
   return Browser.storage.local.set(updates)
 }
 
-export enum ProviderType {
-  ChatGPT = 'chatgpt',
-  GPT3 = 'gpt3',
-}
-
-interface GPT3ProviderConfig {
-  model: string
-  apiKey: string
-  apiHost: string
-}
-
-export interface ProviderConfigs {
-  provider: ProviderType
-  configs: {
-    [ProviderType.GPT3]: GPT3ProviderConfig | undefined
-  }
-}
-
-export async function getProviderConfigs(): Promise<ProviderConfigs> {
+export async function getProviderConfigs() {
   const { provider = ProviderType.ChatGPT } = await Browser.storage.local.get('provider')
   const configKey = `provider:${ProviderType.GPT3}`
   const result = await Browser.storage.local.get(configKey)
@@ -87,10 +61,7 @@ export async function getProviderConfigs(): Promise<ProviderConfigs> {
   }
 }
 
-export async function saveProviderConfigs(
-  provider: ProviderType,
-  configs: ProviderConfigs['configs'],
-) {
+export async function saveProviderConfigs(provider, configs) {
   return Browser.storage.local.set({
     provider,
     [`provider:${ProviderType.GPT3}`]: configs[ProviderType.GPT3],

@@ -2,13 +2,7 @@ import { CheckIcon, CopyIcon } from '@primer/octicons-react'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import { memo } from 'react'
 
-interface Props {
-  messageId: string
-  conversationId: string
-  answerText: string
-}
-
-function ChatGPTFeedback(props: Props) {
+function ChatGPTFeedback(props) {
   const [copied, setCopied] = useState(false)
 
   const clickCopyToClipboard = useCallback(async () => {

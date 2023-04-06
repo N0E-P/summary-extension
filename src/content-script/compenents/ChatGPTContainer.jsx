@@ -5,7 +5,6 @@ import Browser from 'webextension-polyfill'
 import logo from '@/assets/img/logo-48.png'
 import { APP_TITLE, getUserConfig, Theme } from '@/config'
 import getQuestion from '@/content-script/compenents/GetQuestion'
-import { SearchEngine } from '@/content-script/search-engine-configs'
 import { copyTranscript, getConverTranscript } from '@/content-script/utils'
 import { detectSystemColorScheme } from '@/utils/utils'
 import {
@@ -19,24 +18,15 @@ import {
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
 import ChatGPTCard from './ChatGPTCard'
-import { QueryStatus } from './ChatGPTQuery'
 
-interface Props {
-  question: string | null
-  transcript?: unknown
-  siteConfig: SearchEngine
-  langOptionsWithLink?: unknown
-  currentTime?: number
-}
-
-function ChatGPTContainer(props: Props) {
-  const [queryStatus, setQueryStatus] = useState<QueryStatus>()
+function ChatGPTContainer(props) {
+  const [queryStatus, setQueryStatus] = useState()
   const [copied, setCopied] = useState(false)
   const [transcriptShow, setTranscriptShow] = useState(false)
   const [selectedOption, setSelectedOption] = useState(0)
   const [loading, setLoading] = useState(false)
   const [theme, setTheme] = useState(Theme.Auto)
-  const [questionProps, setQuestionProps] = useState<Props>({ ...props })
+  const [questionProps, setQuestionProps] = useState({ ...props })
   const [currentTranscript, setCurrentTranscript] = useState(props.transcript)
 
   const themeType = useMemo(() => {
@@ -84,7 +74,7 @@ function ChatGPTContainer(props: Props) {
 
     setLoading(true)
 
-    let questionData = (await getQuestion()) as Props
+    let questionData = await getQuestion()
 
     if (!questionData) {
       setLoading(false)
@@ -98,9 +88,7 @@ function ChatGPTContainer(props: Props) {
   }, [props, loading])
 
   const onPlay = useCallback(async (starttime = 0) => {
-    const videoElm = document.querySelector(
-      '#movie_player > div.html5-video-container > video',
-    ) as HTMLVideoElement
+    const videoElm = document.querySelector('#movie_player > div.html5-video-container > video')
     if (!videoElm) {
       return
     }

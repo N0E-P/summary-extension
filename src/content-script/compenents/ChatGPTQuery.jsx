@@ -1,36 +1,26 @@
-import { useEffect, useState, useCallback, useRef } from 'preact/hooks'
+import { BASE_URL } from '@/config'
+import '@/content-script/styles.scss'
+import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
+import { isIOS, isSafari } from '@/utils/utils'
+import { Loading } from '@geist-ui/core'
 import classNames from 'classnames'
+import { debounce } from 'lodash-es'
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
 import { memo, useMemo } from 'react'
-import { Loading, Button } from '@geist-ui/core'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
-import { Answer } from '@/messaging'
 import ChatGPTFeedback from './ChatGPTFeedback'
-import { debounce } from 'lodash-es'
-import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
-import { BASE_URL } from '@/config'
-import { isIOS, isSafari } from '@/utils/utils'
-import '@/content-script/styles.scss'
 
-export type QueryStatus = 'success' | 'error' | 'done' | undefined
-
-interface Props {
-  question: string
-  onStatusChange?: (status: QueryStatus) => void
-  currentTime?: number
-}
-
-function ChatGPTQuery(props: Props) {
+function ChatGPTQuery(props) {
   const { onStatusChange, currentTime, question } = props
-
-  const [answer, setAnswer] = useState<Answer | null>(null)
+  const [answer, setAnswer] = useState(null)
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
   const [done, setDone] = useState(false)
   const [showTip, setShowTip] = useState(false)
-  const [status, setStatus] = useState<QueryStatus>()
-  const wrapRef = useRef<HTMLDivElement | null>(null)
+  const [status, setStatus] = useState()
+  const wrapRef = (useRef < HTMLDivElement) | (null > null)
 
   const requestGpt = useMemo(() => {
     console.log('question', question)
@@ -42,7 +32,7 @@ function ChatGPTQuery(props: Props) {
       // return
 
       const port = Browser.runtime.connect()
-      const listener = (msg: any) => {
+      const listener = (msg) => {
         if (msg.text) {
           let text = msg.text || ''
           text = text.replace(/^(\s|:\n\n)+|(:)+|(:\s)$/g, '')
@@ -106,7 +96,7 @@ function ChatGPTQuery(props: Props) {
   }, [])
 
   useEffect(() => {
-    const wrap: HTMLDivElement | null = wrapRef.current
+    const wrap = wrapRef.current
     if (!wrap) {
       return
     }

@@ -20,7 +20,7 @@ export function getExtensionVersion() {
   return Browser.runtime.getManifest().version
 }
 
-export const changeToast: { type: 'success'; text: string } = {
+export const changeToast = {
   text: 'Changes saved',
   type: 'success',
 }

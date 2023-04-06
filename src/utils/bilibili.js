@@ -1,6 +1,6 @@
 import { setParams } from 'gb-url'
 
-export const getBiliVideoId = (url: string) => {
+export const getBiliVideoId = (url) => {
   const matches = url.match(/bilibili.com\/video\/(\w+)\//)
   const id = matches ? matches[1] : null
   // id = id ? id.replace(/^av/, '') : null
