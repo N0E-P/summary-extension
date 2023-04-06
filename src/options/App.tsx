@@ -6,15 +6,21 @@ import {
   Theme,
   updateUserConfig,
 } from '@/config'
-import { config as supportSites } from '@/content-script/search-engine-configs'
 import { detectSystemColorScheme } from '@/utils/utils'
 import { CssBaseline, GeistProvider, Radio, Select, Text, useToasts } from '@geist-ui/core'
 import { useCallback, useEffect, useMemo, useState } from 'preact/hooks'
-import Header from './components/Header'
-import PageSummaryComponent, { PageSummaryProps } from './components/PageSummary'
+import Header from './Header'
 import ProviderSelect from './ProviderSelect'
-
 import './styles.scss'
+
+interface PageSummaryProps {
+  pageSummaryEnable: boolean
+  setPageSummaryEnable: (state: boolean) => void
+  pageSummaryWhitelist: string
+  setPageSummaryWhitelist: (whitelist: string) => void
+  pageSummaryBlacklist: string
+  setPageSummaryBlacklist: (blacklist: string) => void
+}
 
 function OptionsPage(
   props: {
@@ -22,18 +28,8 @@ function OptionsPage(
     onThemeChange: (theme: Theme) => void
   } & PageSummaryProps,
 ) {
-  const {
-    setPageSummaryEnable,
-    pageSummaryEnable,
-    pageSummaryWhitelist,
-    pageSummaryBlacklist,
-    setPageSummaryWhitelist,
-    setPageSummaryBlacklist,
-  } = props
   const [language, setLanguage] = useState<Language>(Language.Auto)
   const { setToast } = useToasts()
-  const [allSites, setAllSites] = useState<string[]>([])
-  const [enableSites, setEnableSites] = useState<string[]>([])
 
   const onThemeChange = useCallback(
     (theme: Theme) => {
@@ -56,22 +52,12 @@ function OptionsPage(
     if (str && str.includes('Chinese')) {
       return `Chinese (${str.split('Chinese')[1] || ''})`
     }
-
     return str ?? ''
   }
 
   useEffect(() => {
     getUserConfig().then((config) => {
       setLanguage(config.language)
-
-      const sites =
-        Object.values(supportSites).map((site) => {
-          return site.siteValue
-        }) || []
-
-      setAllSites(sites)
-      const enableSites = config.enableSites
-      setEnableSites(enableSites ? enableSites : sites)
     })
   }, [])
 
@@ -121,22 +107,12 @@ function OptionsPage(
           AI Provider
         </Text>
         <ProviderSelect />
-
-        {/* Page Summary */}
-        <PageSummaryComponent
-          pageSummaryEnable={pageSummaryEnable}
-          setPageSummaryEnable={setPageSummaryEnable}
-          pageSummaryWhitelist={pageSummaryWhitelist}
-          pageSummaryBlacklist={pageSummaryBlacklist}
-          setPageSummaryWhitelist={setPageSummaryWhitelist}
-          setPageSummaryBlacklist={setPageSummaryBlacklist}
-        />
       </main>
     </div>
   )
 }
 
-function App() {
+export default function App() {
   const [theme, setTheme] = useState(Theme.Auto)
   const [pageSummaryEnable, setPageSummaryEnable] = useState(true)
   const [pageSummaryWhitelist, setPageSummaryWhitelist] = useState<string>('')
@@ -176,5 +152,3 @@ function App() {
     </GeistProvider>
   )
 }
-
-export default App
