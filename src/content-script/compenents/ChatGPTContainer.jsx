@@ -1,12 +1,9 @@
-import { GeistProvider, Loading, Spinner } from '@geist-ui/core'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import Browser from 'webextension-polyfill'
-// import useSWRImmutable from 'swr/immutable'
 import logo from '@/assets/img/logo-48.png'
 import { APP_TITLE, getUserConfig, Theme } from '@/config'
 import getQuestion from '@/content-script/compenents/GetQuestion'
 import { copyTranscript, getConverTranscript } from '@/content-script/utils'
 import { detectSystemColorScheme } from '@/utils/utils'
+import { GeistProvider, Loading, Spinner } from '@geist-ui/core'
 import {
   AlertIcon,
   CheckIcon,
@@ -17,6 +14,8 @@ import {
   SyncIcon,
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import Browser from 'webextension-polyfill'
 import ChatGPTCard from './ChatGPTCard'
 
 function ChatGPTContainer(props) {
@@ -158,8 +157,6 @@ function ChatGPTContainer(props) {
                   </a>
                 )}
               </div>
-
-              <div className="glarity--chatgpt__action"></div>
             </div>
 
             <div className="glarity--main">
@@ -179,18 +176,7 @@ function ChatGPTContainer(props) {
                   </>
                 ) : questionProps.siteConfig?.name === 'youtube' ? (
                   <>
-                    <p>No Transcription Available... </p>
-                    <p>
-                      Try{' '}
-                      <a
-                        href="https://huggingface.co/spaces/jeffistyping/Youtube-Whisperer"
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        Youtube Whisperer
-                      </a>{' '}
-                      to transcribe!
-                    </p>
+                    <p>No Summary Available For This Page. </p>
                   </>
                 ) : (
                   <p>
@@ -204,7 +190,7 @@ function ChatGPTContainer(props) {
               <div className="glarity--main">
                 <div className="glarity--main__header">
                   <div className="glarity--main__header--title">
-                    Transcript
+                    Transcription
                     {questionProps.langOptionsWithLink.length > 1 && (
                       <>
                         {' '}

@@ -1,7 +1,6 @@
 import { extractFromHtml } from '@/utils/article-extractor/cjs/article-extractor.esm'
 import copy from 'copy-to-clipboard'
 import $ from 'jquery'
-import Browser from 'webextension-polyfill'
 import { config } from './search-engine-configs'
 
 export function getPossibleElementByQuerySelector(queryArray) {
@@ -25,15 +24,6 @@ export function endsWithQuestionMark(question) {
 
 export function isBraveBrowser() {
   return navigator.brave?.isBrave()
-}
-
-export async function shouldShowRatingTip() {
-  const { ratingTipShowTimes = 0 } = await Browser.storage.local.get('ratingTipShowTimes')
-  if (ratingTipShowTimes >= 5) {
-    return false
-  }
-  await Browser.storage.local.set({ ratingTipShowTimes: ratingTipShowTimes + 1 })
-  return ratingTipShowTimes >= 2
 }
 
 export function removeHtmlTags(str) {

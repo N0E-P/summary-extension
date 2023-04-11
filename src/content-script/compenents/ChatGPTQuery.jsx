@@ -1,6 +1,6 @@
 import { BASE_URL } from '@/config'
 import '@/content-script/styles.scss'
-import { isBraveBrowser, shouldShowRatingTip } from '@/content-script/utils'
+import { isBraveBrowser } from '@/content-script/utils'
 import { isIOS, isSafari } from '@/utils/utils'
 import { Loading } from '@geist-ui/core'
 import classNames from 'classnames'
@@ -18,7 +18,6 @@ function ChatGPTQuery(props) {
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
   const [done, setDone] = useState(false)
-  const [showTip, setShowTip] = useState(false)
   const [status, setStatus] = useState()
   const wrapRef = useRef(null)
 
@@ -27,9 +26,6 @@ function ChatGPTQuery(props) {
 
     return debounce(() => {
       setStatus(undefined)
-      // setError('error')
-      // setStatus('error')
-      // return
 
       const port = Browser.runtime.connect()
       const listener = (msg) => {
@@ -92,10 +88,6 @@ function ChatGPTQuery(props) {
   }, [error])
 
   useEffect(() => {
-    shouldShowRatingTip().then((show) => setShowTip(show))
-  }, [])
-
-  useEffect(() => {
     const wrap = wrapRef.current
     if (!wrap) {
       return
@@ -124,22 +116,11 @@ function ChatGPTQuery(props) {
             {answer.text}
           </ReactMarkdown>
         </div>
-        {/* {done && showTip && (
-          <p className="glarity--italic glarity--mt-2">
-            Enjoy this extension? Give us a 5-star rating at{' '}
-            <a
-              href="https://chatgpt4google.com/chrome?utm_source=rating_tip"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Chrome Web Store
-            </a>
-          </p>
-        )} */}
       </div>
     )
   }
 
+  // ERROR HANDLING
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE') {
     return (
       <p>
