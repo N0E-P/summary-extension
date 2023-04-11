@@ -12,12 +12,11 @@ import { getPageSummaryComments, getPageSummaryContntent } from '@/content-scrip
 import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
 import { isIOS } from '@/utils/utils'
 
-function PageSummary(props) {
+export default function PageSummary(props) {
   const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
   const [showCard, setShowCard] = useState(false)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
-  const [loading, setLoading] = useState(false)
   const [show, setShow] = useState(false)
 
   const onSwitch = useCallback(() => {
@@ -26,7 +25,6 @@ function PageSummary(props) {
 
       if (cardState) {
         setQuestion('')
-        setLoading(false)
       }
 
       return cardState
@@ -38,7 +36,6 @@ function PageSummary(props) {
   }, [])
 
   const onSummary = useCallback(async () => {
-    setLoading(true)
     setSupportSummary(true)
 
     setQuestion('')
@@ -99,7 +96,6 @@ function PageSummary(props) {
 
         setQuestion('')
         setShowCard(true)
-        setLoading(false)
       }
     })
   }, [showCard])
@@ -155,22 +151,9 @@ function PageSummary(props) {
               </div>
             ) : (
               <div className="glarity--card__empty ">
-                {!supportSummary ? (
-                  'Sorry, the summary of this page is not supported.'
-                ) : (
-                  <button
-                    className={classNames(
-                      'glarity--btn',
-                      'glarity--btn__primary',
-                      // 'glarity--btn__large',
-                      'glarity--btn__block',
-                    )}
-                    onClick={onSummary}
-                    disabled={loading}
-                  >
-                    Summary
-                  </button>
-                )}
+                {!supportSummary
+                  ? 'Sorry, the summary of this page is not supported.'
+                  : onSummary()}
               </div>
             )}
           </div>
@@ -186,11 +169,10 @@ function PageSummary(props) {
               alt={APP_TITLE}
               className="glarity--w-5 glarity--h-5 glarity--rounded-sm"
             />
+            Summarize !
           </button>
         )
       )}
     </>
   )
 }
-
-export default PageSummary
