@@ -104,6 +104,11 @@ function ChatGPTQuery(props) {
   if (answer) {
     return (
       <div className="markdown-body gpt-markdown" id="gpt-answer" dir="auto">
+        <div className="glarity--chatgpt--content" ref={wrapRef}>
+          <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
+            {answer.text}
+          </ReactMarkdown>
+        </div>
         {done && (
           <div className="glarity--chatgpt--header">
             <ChatGPTFeedback
@@ -113,11 +118,6 @@ function ChatGPTQuery(props) {
             />
           </div>
         )}
-        <div className="glarity--chatgpt--content" ref={wrapRef}>
-          <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
-            {answer.text}
-          </ReactMarkdown>
-        </div>
       </div>
     )
   }
@@ -190,7 +190,7 @@ function ChatGPTQuery(props) {
     return (
       <p>
         Error from ChatGPT:
-        <span className="glarity--break-all glarity--block">{error.detail}</span>
+        <span className="glarity--break-all glarity--block">{error}</span>
         <a
           href="javascript:void(0)"
           onClick={() => {

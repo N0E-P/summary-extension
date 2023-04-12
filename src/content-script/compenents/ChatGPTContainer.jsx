@@ -1,9 +1,8 @@
 import logo from '@/assets/img/logo-48.png'
 import { APP_TITLE, getUserConfig, Theme } from '@/config'
-import getQuestion from '@/content-script/compenents/GetQuestion'
 import { copyTranscript, getConverTranscript } from '@/content-script/utils'
 import { detectSystemColorScheme } from '@/utils/utils'
-import { GeistProvider, Loading, Spinner } from '@geist-ui/core'
+import { GeistProvider, Loading } from '@geist-ui/core'
 import {
   AlertIcon,
   CheckIcon,
@@ -11,11 +10,9 @@ import {
   ChevronUpIcon,
   CopyIcon,
   GearIcon,
-  SyncIcon,
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import Browser from 'webextension-polyfill'
 import ChatGPTCard from './ChatGPTCard'
 
 function ChatGPTContainer(props) {
@@ -52,7 +49,6 @@ function ChatGPTContainer(props) {
     })
 
     setTranscriptShow(true)
-
     setCurrentTranscript(transcriptList)
   }
 
@@ -65,26 +61,6 @@ function ChatGPTContainer(props) {
   const openOptionsPage = useCallback(() => {
     Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
-
-  const onRefresh = useCallback(async () => {
-    if (loading) {
-      return
-    }
-
-    setLoading(true)
-
-    let questionData = await getQuestion()
-
-    if (!questionData) {
-      setLoading(false)
-      return
-    }
-    questionData = Object.assign(questionData, { currentTime: Date.now() })
-
-    setQuestionProps({ ...props, ...questionData })
-
-    setQueryStatus(undefined)
-  }, [props, loading])
 
   const onPlay = useCallback(async (starttime = 0) => {
     const videoElm = document.querySelector('#movie_player > div.html5-video-container > video')
@@ -146,16 +122,6 @@ function ChatGPTContainer(props) {
                 <a href="javascript:;" className="glarity--header__logo" onClick={openOptionsPage}>
                   <GearIcon size={14} />
                 </a>
-
-                {loading ? (
-                  <span className="glarity--header__logo">
-                    <Spinner className="glarity--icon--loading" />
-                  </span>
-                ) : (
-                  <a href="javascript:;" className="glarity--header__logo" onClick={onRefresh}>
-                    <SyncIcon size={14} />
-                  </a>
-                )}
               </div>
             </div>
 

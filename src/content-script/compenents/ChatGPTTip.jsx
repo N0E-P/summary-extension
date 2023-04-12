@@ -1,5 +1,5 @@
 import { APP_TITLE } from '@/config'
-import { Button, Description, Note } from '@geist-ui/core'
+import { Button } from '@geist-ui/core'
 import { XCircleFillIcon } from '@primer/octicons-react'
 import { useState } from 'preact/hooks'
 import Browser from 'webextension-polyfill'
@@ -22,25 +22,17 @@ function ChatGPTTip(props) {
     <>
       {showTip && (
         <>
-          <Note type="success" label={false}>
-            <Description
-              content={
-                <>
-                  {isLogin ? (
-                    <>
-                      {APP_TITLE} is Ready! <br />
-                      Keep this tab open to make {APP_TITLE} more stable.
-                      <Button auto type="success" onClick={onBack} scale={0.5}>
-                        Back
-                      </Button>
-                    </>
-                  ) : (
-                    <>Login to the ChatGPT web application.</>
-                  )}
-                </>
-              }
-            />
-          </Note>
+          {isLogin ? (
+            <>
+              {APP_TITLE} is Ready! <br />
+              Keep this tab open to make {APP_TITLE} more stable.
+              <Button auto type="success" onClick={onBack} scale={0.5}>
+                Back
+              </Button>
+            </>
+          ) : (
+            <>Login to the ChatGPT web application.</>
+          )}
 
           <Button
             className="glarity--chatgpt--tips--close"

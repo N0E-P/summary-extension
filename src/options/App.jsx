@@ -72,7 +72,10 @@ function OptionsPage(props) {
         <Text h3 className="glarity--mt-5 glarity--mb-0">
           Language
         </Text>
-        <Text className="glarity--my-1">The language used in ChatGPT response.</Text>
+        <Text className="glarity--my-1">
+          The language used in ChatGPT response. <br /> (Choose English to use the Speech to Text
+          functionality)
+        </Text>
         <Select value={language} placeholder="Choose one" onChange={(val) => onLanguageChange(val)}>
           {Object.entries(Language).map(([k, v]) => (
             <Select.Option key={k} value={v}>

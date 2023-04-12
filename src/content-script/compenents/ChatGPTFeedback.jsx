@@ -29,6 +29,9 @@ function ChatGPTFeedback(props) {
 
   return (
     <div className="gpt--feedback">
+      <span onClick={clickCopyToClipboard}>
+        {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+      </span>
       {supported && (
         <>
           {speaking ? (
@@ -42,9 +45,6 @@ function ChatGPTFeedback(props) {
           )}
         </>
       )}
-      <span onClick={clickCopyToClipboard}>
-        {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
-      </span>
     </div>
   )
 }
