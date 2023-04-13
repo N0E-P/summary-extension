@@ -10,6 +10,7 @@ import { GearIcon, XCircleFillIcon } from '@primer/octicons-react'
 import classNames from 'classnames'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import Browser from 'webextension-polyfill'
+import Options from './Options'
 
 export default function PageSummary(props) {
   const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
@@ -17,6 +18,7 @@ export default function PageSummary(props) {
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
   const [show, setShow] = useState(false)
+  const [showOptions, setShowOptions] = useState(false)
 
   const onSwitch = useCallback(() => {
     setShowCard((state) => {
@@ -28,10 +30,6 @@ export default function PageSummary(props) {
 
       return cardState
     })
-  }, [])
-
-  const openOptionsPage = useCallback(() => {
-    Browser.runtime.sendMessage({ type: 'OPEN_OPTIONS_PAGE' })
   }, [])
 
   const onSummary = useCallback(async () => {
@@ -127,7 +125,7 @@ export default function PageSummary(props) {
               </a>{' '}
               <button
                 className={classNames('glarity--btn', 'glarity--btn__icon')}
-                onClick={openOptionsPage}
+                onClick={() => setShowOptions(!showOptions)}
               >
                 <GearIcon size={14} />
               </button>
@@ -144,20 +142,27 @@ export default function PageSummary(props) {
             </div>
           </div>
 
-          {/*ChatGPT query to get the summary */}
+          {/* Show the option page */}
           <div className="glarity--card__content">
-            {question ? (
-              <div className="glarity--container">
-                <div className="glarity--chatgpt">
-                  <ChatGPTQuery question={question} />
-                </div>
-
-                {/*First running code when opening extension  */}
-              </div>
+            {showOptions ? (
+              <Options />
             ) : (
-              <div className="glarity--card__empty ">
-                {!supportSummary ? 'No Summary Available For This Page.' : onSummary()}
-              </div>
+              <>
+                {/*ChatGPT query to get the summary */}
+                {question ? (
+                  <div className="glarity--container">
+                    <div className="glarity--chatgpt">
+                      <ChatGPTQuery question={question} />
+                    </div>
+
+                    {/*First running code when opening extension  */}
+                  </div>
+                ) : (
+                  <div className="glarity--card__empty ">
+                    {!supportSummary ? 'No Summary Available For This Page.' : onSummary()}
+                  </div>
+                )}
+              </>
             )}
           </div>
 
