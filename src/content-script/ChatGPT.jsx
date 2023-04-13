@@ -4,7 +4,7 @@ import { XCircleFillIcon } from '@primer/octicons-react'
 import { useState } from 'preact/hooks'
 import Browser from 'webextension-polyfill'
 
-function ChatGPTTip(props) {
+export default function ChatGPT(props) {
   const isLogin = props?.isLogin
   const [showTip, setShowTip] = useState(true)
 
@@ -45,5 +45,3 @@ function ChatGPTTip(props) {
     </>
   )
 }
-
-export default ChatGPTTip

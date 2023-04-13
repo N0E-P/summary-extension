@@ -1,7 +1,7 @@
 import logoWhite from '@/assets/img/logo-white.png'
 import logo from '@/assets/img/logo.png'
 import { APP_TITLE, getProviderConfigs, getUserConfig, Language } from '@/config'
-import ChatGPTQuery from '@/content-script/compenents/ChatGPTQuery'
+import Query from '@/content-script/components/Query'
 import { getSummaryPrompt } from '@/content-script/prompt'
 import { getPageSummaryComments, getPageSummaryContntent } from '@/content-script/utils'
 import { commentSummaryPrompt, pageSummaryPrompt, pageSummaryPromptHighlight } from '@/utils/prompt'
@@ -10,10 +10,14 @@ import { GearIcon, XCircleFillIcon } from '@primer/octicons-react'
 import classNames from 'classnames'
 import { useCallback, useEffect, useState } from 'preact/hooks'
 import Browser from 'webextension-polyfill'
-import Options from './Options'
+import Options from './components/Options'
 
-export default function PageSummary(props) {
-  const { pageSummaryEnable, pageSummaryWhitelist, pageSummaryBlacklist, siteRegex } = props
+export default function Popup({
+  pageSummaryEnable,
+  pageSummaryWhitelist,
+  pageSummaryBlacklist,
+  siteRegex,
+}) {
   const [showCard, setShowCard] = useState(false)
   const [supportSummary, setSupportSummary] = useState(true)
   const [question, setQuestion] = useState('')
@@ -152,7 +156,7 @@ export default function PageSummary(props) {
                 {question ? (
                   <div className="glarity--container">
                     <div className="glarity--chatgpt">
-                      <ChatGPTQuery question={question} />
+                      <Query question={question} />
                     </div>
 
                     {/*First running code when opening extension  */}

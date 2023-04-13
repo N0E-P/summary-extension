@@ -4,7 +4,7 @@ import {
   getConverTranscript,
   getLangOptionsWithLink,
   getPossibleElementByQuerySelector,
-  siteConfig as sietConfigFn,
+  siteConfig as siteConfigFn,
   siteName as siteNameFn,
   waitForElm,
 } from '@/content-script/utils'
@@ -20,7 +20,7 @@ import {
 import { queryParam } from 'gb-url'
 
 export default async function getQuestion() {
-  const siteConfig = sietConfigFn()
+  const siteConfig = siteConfigFn()
   const siteName = siteNameFn()
 
   if (!siteConfig) {

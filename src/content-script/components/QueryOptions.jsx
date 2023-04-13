@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'preact/hooks'
 import { memo } from 'react'
 import { useSpeechSynthesis } from 'react-speech-kit'
 
-function ChatGPTFeedback(props) {
+function QueryOptions({ answer, question }) {
   // react-speech-kit options | Test it here: https://mikeyparton.github.io/react-speech-kit/
   const { speak, cancel, speaking, supported, voices } = useSpeechSynthesis()
   const voice = voices[1]
@@ -14,9 +14,9 @@ function ChatGPTFeedback(props) {
   const [copied, setCopied] = useState(false)
 
   const clickCopyToClipboard = useCallback(async () => {
-    await navigator.clipboard.writeText(props.answerText)
+    await navigator.clipboard.writeText(answer)
     setCopied(true)
-  }, [props.answerText])
+  }, [answer])
 
   useEffect(() => {
     if (copied) {
@@ -39,7 +39,7 @@ function ChatGPTFeedback(props) {
               <MuteIcon size={14} />
             </span>
           ) : (
-            <span onClick={() => speak({ text: props.answerText, voice, rate, pitch })}>
+            <span onClick={() => speak({ text: answer, voice, rate, pitch })}>
               <UnmuteIcon size={14} />
             </span>
           )}
@@ -49,4 +49,4 @@ function ChatGPTFeedback(props) {
   )
 }
 
-export default memo(ChatGPTFeedback)
+export default memo(QueryOptions)

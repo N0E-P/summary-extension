@@ -1,10 +1,10 @@
 import { getUserConfig, Theme } from '@/config'
-import ChatGPTContainer from '@/content-script/compenents/ChatGPTContainer'
+import Container from '@/content-script/Container'
 import { config } from '@/content-script/search-engine-configs'
 import {
   getPossibleElementByQuerySelector,
   hostname,
-  siteConfig as sietConfigFn,
+  siteConfig as siteConfigFn,
   siteName as siteNameFn,
   waitForElm,
 } from '@/content-script/utils'
@@ -12,7 +12,7 @@ import { detectSystemColorScheme } from '@/utils/utils'
 import { render } from 'preact'
 
 export default async function mount(props) {
-  const siteConfig = sietConfigFn()
+  const siteConfig = siteConfigFn()
   const siteName = siteNameFn()
 
   const { question, transcript, langOptionsWithLink } = props
@@ -183,7 +183,7 @@ export default async function mount(props) {
   }
 
   render(
-    <ChatGPTContainer
+    <Container
       question={question}
       transcript={transcript}
       siteConfig={siteConfig}

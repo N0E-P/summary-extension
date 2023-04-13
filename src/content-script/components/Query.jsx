@@ -10,10 +10,9 @@ import { memo, useMemo } from 'react'
 import ReactMarkdown from 'react-markdown'
 import rehypeHighlight from 'rehype-highlight'
 import Browser from 'webextension-polyfill'
-import ChatGPTFeedback from './ChatGPTFeedback'
+import QueryOptions from './QueryOptions'
 
-function ChatGPTQuery(props) {
-  const { onStatusChange, currentTime, question } = props
+function Query({ onStatusChange, currentTime, question }) {
   const [answer, setAnswer] = useState(null)
   const [error, setError] = useState('')
   const [retry, setRetry] = useState(0)
@@ -111,11 +110,7 @@ function ChatGPTQuery(props) {
         </div>
         {done && (
           <div className="glarity--chatgpt--header">
-            <ChatGPTFeedback
-              messageId={answer.messageId}
-              conversationId={answer.conversationId}
-              answerText={answer.text}
-            />
+            <QueryOptions question={question} answer={answer.text} />
           </div>
         )}
       </div>
@@ -216,4 +211,4 @@ function ChatGPTQuery(props) {
   return <Loading />
 }
 
-export default memo(ChatGPTQuery)
+export default memo(Query)
