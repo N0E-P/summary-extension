@@ -16,7 +16,7 @@ const appName = 'Glarity-'
 const isDev = process.env.NODE_ENV === 'dev'
 
 let buildConfig = {
-  entryPoints: ['src/content-script/index.jsx', 'src/background/index.js', 'src/options/index.jsx'],
+  entryPoints: ['src/content-script/index.jsx', 'src/background/index.js'],
   bundle: true,
   outdir: outdir,
   treeShaking: true,
@@ -81,9 +81,6 @@ async function build() {
     { src: 'build/content-script/index.js', dst: 'content-script.js' },
     { src: 'build/content-script/index.css', dst: 'content-script.css' },
     { src: 'build/background/index.js', dst: 'background.js' },
-    { src: 'build/options/index.js', dst: 'options.js' },
-    { src: 'build/options/index.css', dst: 'options.css' },
-    { src: 'src/options/index.html', dst: 'options.html' },
     { src: 'src/assets/img/logo-16.png', dst: 'logo-16.png' },
     { src: 'src/assets/img/logo-32.png', dst: 'logo-32.png' },
     { src: 'src/assets/img/logo-48.png', dst: 'logo-48.png' },

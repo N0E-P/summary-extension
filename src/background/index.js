@@ -103,6 +103,7 @@ Browser.runtime.onMessage.addListener(async (message) => {
   }
 })
 
+// Maybe remove this, or change it if options problems during installation
 Browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === 'install') {
     Browser.runtime.openOptionsPage()
