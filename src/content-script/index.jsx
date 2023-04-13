@@ -1,14 +1,14 @@
-import { render } from 'preact'
 import '@/assets/styles/base.scss'
 import { getUserConfig } from '@/config'
 import ChatGPTTip from '@/content-script/compenents/ChatGPTTip'
-import { config } from '@/content-script/search-engine-configs'
-import Browser from 'webextension-polyfill'
-import PageSummary from '@/content-script/compenents/PageSummary'
 import mount from '@/content-script/compenents/Mount'
+import PageSummary from '@/content-script/compenents/PageSummary'
+import { config } from '@/content-script/search-engine-configs'
+import '@/content-script/styles.scss'
+import { render } from 'preact'
+import Browser from 'webextension-polyfill'
 import getQuestion from './compenents/GetQuestion'
 import { siteConfig as sietConfigFn } from './utils'
-import '@/content-script/styles.scss'
 
 const siteConfig = sietConfigFn()
 
@@ -21,6 +21,8 @@ async function Run() {
       })
       .join('|'),
   )
+
+  // If this is a normal website
   const container = document.createElement('section')
   container.className = 'glarity--summary'
   document.body.prepend(container)
@@ -34,11 +36,13 @@ async function Run() {
     container,
   )
 
+  // If tab is one from the whitelisted sites
   const questionData = await getQuestion()
   if (questionData) {
     mount(questionData)
   }
 
+  // if we are on openai's website
   Browser.runtime.onMessage.addListener((message, _, sendResponse) => {
     const { type, data } = message
     switch (type) {

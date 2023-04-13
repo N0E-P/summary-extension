@@ -13,7 +13,7 @@ import {
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import ChatGPTCard from './ChatGPTCard'
+import ChatGPTQuery from './ChatGPTQuery'
 
 function ChatGPTContainer(props) {
   const [queryStatus, setQueryStatus] = useState()
@@ -134,7 +134,7 @@ function ChatGPTContainer(props) {
                         <Loading />
                       </div>
                     )}
-                    <ChatGPTCard
+                    <ChatGPTQuery
                       question={questionProps.question}
                       onStatusChange={setQueryStatus}
                       currentTime={questionProps.currentTime}

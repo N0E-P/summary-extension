@@ -7,7 +7,7 @@ export const isFirefox = navigator.userAgent.indexOf('Firefox') != -1
 
 export const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 
-export const AppName = 'Glarity'
+export const AppName = 'SummerTime'
 
 export function detectSystemColorScheme() {
   if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
