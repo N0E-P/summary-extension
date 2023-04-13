@@ -13,6 +13,7 @@ import {
 } from '@primer/octicons-react'
 import { queryParam } from 'gb-url'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import Browser from 'webextension-polyfill'
 import ChatGPTQuery from './ChatGPTQuery'
 
 function ChatGPTContainer(props) {
